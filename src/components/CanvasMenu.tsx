@@ -98,10 +98,6 @@ export default function CanvasMenu({
   const [cropSlot, setCropSlot] = React.useState<number | null>(null);
   const [cropOriginalUrl, setCropOriginalUrl] = React.useState<string>('');
 
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const handleUploadClick = (_slot: number) => {
-     // kept for interface compatibility
-  };
 
   const handleFileSelected = (slot: number, file: File) => {
     const url = URL.createObjectURL(file);
@@ -174,13 +170,7 @@ export default function CanvasMenu({
           border-color: transparent !important;
         }
       `}</style>
-      <input 
-        type="file" 
-        ref={fileInputRef} 
-        onChange={handleFileChange} 
-        accept="image/*" 
-        className="absolute w-0 h-0 opacity-0 overflow-hidden pointer-events-none"
-      />
+
       {/* Left Column: Imágenes GRID */}
       <div className="w-[327px] shrink-0 h-full flex flex-col z-20 p-0 m-0 relative bg-[#eae8ec] -mr-[1px]">
         {[1, 2, 3, 4].map(slotNum => (
@@ -188,7 +178,7 @@ export default function CanvasMenu({
             <ImageSlot 
               slotId={slotNum} 
               imageUrl={images[slotNum]}
-              onUploadClick={handleUploadClick}
+
               onFileSelected={handleFileSelected}
               onDoubleTap={(s) => {
                  setCropSlot(s);

@@ -4,13 +4,13 @@ import { Camera, Image as ImageIcon, Trash2 } from 'lucide-react';
 interface ImageSlotProps {
   slotId: number;
   imageUrl?: string | null;
-  onUploadClick: (slotId: number) => void;
+
   onFileSelected?: (slotId: number, file: File) => void;
   onDoubleTap: (slotId: number) => void;
   onDelete: (slotId: number) => void;
 }
 
-export default function ImageSlot({ slotId, imageUrl, onUploadClick, onFileSelected, onDoubleTap, onDelete }: ImageSlotProps) {
+export default function ImageSlot({ slotId, imageUrl, onFileSelected, onDoubleTap, onDelete }: ImageSlotProps) {
   const handleLocalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files?.[0] && onFileSelected) {
       onFileSelected(slotId, e.target.files[0]);
