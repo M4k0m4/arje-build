@@ -42,7 +42,7 @@ export default function ImageSlot({ slotId, imageUrl, onFileSelected, onDoubleTa
                 className="p-2.5 bg-white/90 rounded-full hover:bg-white text-gray-800 shadow-xl hover:scale-110 transition-all cursor-pointer"
                 title="Cambiar imagen"
               >
-                <input type="file" className="hidden" accept="image/*" onChange={handleLocalChange} />
+                <input type="file" className="absolute w-0 h-0 opacity-0 overflow-hidden pointer-events-none" accept="image/*" onChange={handleLocalChange} />
                 <ImageIcon className="w-5 h-5" />
               </label>
               <button 
@@ -64,7 +64,7 @@ export default function ImageSlot({ slotId, imageUrl, onFileSelected, onDoubleTa
         </>
       ) : (
         <label className="flex flex-col items-center justify-center text-gray-400 group-hover:text-purple-500 cursor-pointer w-full h-full">
-          <input type="file" className="hidden" accept="image/*" onChange={handleLocalChange} />
+          <input type="file" className="absolute w-0 h-0 opacity-0 overflow-hidden pointer-events-none" accept="image/*" onChange={handleLocalChange} />
           <Camera className="w-8 h-8 mb-2 opacity-50" />
           <span className="text-sm font-medium">Slot {slotId}</span>
         </label>
