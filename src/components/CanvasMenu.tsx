@@ -7,6 +7,8 @@ import type { DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import CropModal from './CropModal';
+import TextEditorModal from './TextEditorModal';
+import type { TextStyleOverride, MenuItemOverrides } from './MenuItem';
 import logoArje from '../assets/logo-arje.png';
 import logoWhats from '../assets/logo-whats.png';
 
@@ -27,7 +29,7 @@ interface CanvasMenuProps {
   colorPrecios?: string;
 }
 
-function SortableMenuItem({ item, onDelete, colorTitulos, colorTamano, colorPrecios }: { item: MenuItemProps, onDelete: () => void, colorTitulos?: string, colorTamano?: string, colorPrecios?: string }) {
+function SortableMenuItem({ item, onDelete, onDoubleClickElement, colorTitulos, colorTamano, colorPrecios }: { item: MenuItemProps, onDelete: () => void, onDoubleClickElement?: (fieldId: keyof MenuItemOverrides, currentText: string, currentStyles: TextStyleOverride) => void, colorTitulos?: string, colorTamano?: string, colorPrecios?: string }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: item.id });
   
   const style = {
@@ -62,6 +64,7 @@ function SortableMenuItem({ item, onDelete, colorTitulos, colorTamano, colorPrec
         colorTitulos={colorTitulos}
         colorTamano={colorTamano}
         colorPrecios={colorPrecios}
+        onDoubleClickElement={onDoubleClickElement}
       />
     </div>
   );
@@ -97,6 +100,40 @@ export default function CanvasMenu({
   // Crop Modal State
   const [cropSlot, setCropSlot] = React.useState<number | null>(null);
   const [cropOriginalUrl, setCropOriginalUrl] = React.useState<string>('');
+
+  const [activeTextEdit, setActiveTextEdit] = React.useState<{
+    itemId: string;
+    fieldId: keyof MenuItemOverrides;
+    currentText: string;
+    currentStyles: TextStyleOverride;
+  } | null>(null);
+
+  const handleDoubleClickElement = (itemId: string, fieldId: keyof MenuItemOverrides, currentText: string, currentStyles: TextStyleOverride) => {
+    setActiveTextEdit({ itemId, fieldId, currentText, currentStyles });
+  };
+
+  const handleSaveTextEdit = (newText: string, newStyles: TextStyleOverride) => {
+    if (!activeTextEdit || !onChange) return;
+    
+    const newItems = items.map(item => {
+      if (item.id === activeTextEdit.itemId) {
+        return {
+          ...item,
+          overrides: {
+            ...(item.overrides || {}),
+            [activeTextEdit.fieldId]: {
+              text: newText,
+              ...newStyles
+            }
+          }
+        };
+      }
+      return item;
+    });
+    
+    onChange(newItems);
+    setActiveTextEdit(null);
+  };
 
 
   const handleFileSelected = (slot: number, file: File) => {
@@ -283,6 +320,7 @@ export default function CanvasMenu({
                     colorTitulos={colorTitulos}
                     colorTamano={colorTamano}
                     colorPrecios={colorPrecios}
+                    onDoubleClickElement={(fieldId, text, styles) => handleDoubleClickElement(item.id, fieldId, text, styles)}
                   />
                 ))}
               </SortableContext>
@@ -317,6 +355,17 @@ export default function CanvasMenu({
           imageUrl={cropOriginalUrl} 
           onClose={() => setCropSlot(null)} 
           onSave={commitCrop} 
+        />
+      )}
+
+      {activeTextEdit && (
+        <TextEditorModal
+          isOpen={!!activeTextEdit}
+          fieldId={activeTextEdit.fieldId}
+          initialText={activeTextEdit.currentText}
+          initialStyles={activeTextEdit.currentStyles}
+          onClose={() => setActiveTextEdit(null)}
+          onSave={handleSaveTextEdit}
         />
       )}
     </div>
