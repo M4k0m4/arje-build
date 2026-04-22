@@ -77,12 +77,15 @@ export default function CropModal({ isOpen, imageUrl, onClose, onSave }: CropMod
           </button>
         </div>
         
-        <div className="relative w-full h-[500px] bg-gray-900">
+        <div 
+          className="relative w-full h-[500px] bg-gray-900 select-none touch-none"
+          onDragStart={(e) => e.preventDefault()}
+        >
           <Cropper
             image={imageUrl}
             crop={crop}
             zoom={zoom}
-            aspect={800 / 512} // Match approximate ratio of the row
+            aspect={327 / 265} // Exact aspect ratio of the ImageSlot
             onCropChange={setCrop}
             onCropComplete={onCropComplete}
             onZoomChange={setZoom}
