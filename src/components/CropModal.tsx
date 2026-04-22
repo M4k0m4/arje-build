@@ -1,4 +1,5 @@
 import { useState, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import Cropper from 'react-easy-crop';
 import { X, Check } from 'lucide-react';
 
@@ -15,7 +16,7 @@ const createImage = (url: string): Promise<HTMLImageElement> =>
     const image = new Image();
     image.addEventListener('load', () => resolve(image));
     image.addEventListener('error', (error) => reject(error));
-    image.setAttribute('crossOrigin', 'anonymous');
+    if (!url.startsWith('blob:')) image.setAttribute('crossOrigin', 'anonymous');
     image.src = url;
   });
 
@@ -67,8 +68,13 @@ export default function CropModal({ isOpen, imageUrl, onClose, onSave }: CropMod
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
+  return createPortal(
+    <div 
+      className="fixed inset-0 z-[9999] bg-black/90 flex items-center justify-center p-4 touch-none"
+      onPointerDown={(e) => e.stopPropagation()}
+      onPointerMove={(e) => e.stopPropagation()}
+      onWheel={(e) => e.stopPropagation()}
+    >
       <div className="bg-white w-full max-w-2xl rounded-2xl overflow-hidden flex flex-col shadow-2xl">
         <div className="flex justify-between items-center p-4 border-b border-gray-100">
           <h2 className="text-lg font-bold">Ajustar Encuadre</h2>
@@ -115,6 +121,7 @@ export default function CropModal({ isOpen, imageUrl, onClose, onSave }: CropMod
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
