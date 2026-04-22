@@ -1,4 +1,6 @@
 import type { MenuItemProps } from '../components/MenuItem';
+import logoArje from '../assets/logo-arje.png';
+import logoWhats from '../assets/logo-whats.png';
 
 // exportMenuAsCanvas.ts
 export async function exportMenuAsCanvas(
@@ -98,7 +100,7 @@ export async function exportMenuAsCanvas(
 
   // 1. Dibujar Logo Superior
   try {
-     const logoImg = await loadImage('/src/assets/logo-arje.png');
+     const logoImg = await loadImage(logoArje);
      const maxLogoW = 240 * SCALE;
      const logoW = Math.min(RIGHT_W * 0.85, maxLogoW);
      const logoH = logoImg.naturalHeight * (logoW / logoImg.naturalWidth);
@@ -218,7 +220,7 @@ export async function exportMenuAsCanvas(
 
   // Intentar cargar logo whats
   try {
-     const whatsImg = await loadImage('/src/assets/logo-whats.png');
+     const whatsImg = await loadImage(logoWhats);
      ctx.drawImage(whatsImg, pillX + 16 * SCALE, pillY + 10 * SCALE, 30 * SCALE, 30 * SCALE);
   } catch(e) {}
 

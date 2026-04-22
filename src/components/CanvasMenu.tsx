@@ -7,6 +7,8 @@ import type { DragEndEvent } from '@dnd-kit/core';
 import { SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import CropModal from './CropModal';
+import logoArje from '../assets/logo-arje.png';
+import logoWhats from '../assets/logo-whats.png';
 
 interface CanvasMenuProps {
   id?: string;
@@ -273,7 +275,7 @@ export default function CanvasMenu({
           {/* Header - Logo */}
           <div className="w-full flex justify-center mb-6 pointer-events-auto">
             <img 
-              src="/src/assets/logo-arje.png" 
+              src={logoArje} 
               alt="ARJÉ PASTELERÍA" 
               className="w-[85%] max-w-[240px] aspect-auto object-contain"
             />
@@ -315,7 +317,7 @@ export default function CanvasMenu({
             <div className="keep-border border border-[#74439c] bg-gradient-to-r from-[#4A2675] to-[#59348b] text-white py-3.5 px-8 rounded-full flex items-center gap-5 shadow-[0_12px_25px_rgb(89,52,139,0.3)] transform transition hover:scale-105">
               {/* WhatsApp Icon */}
               <div className="keep-border w-10 h-10 flex items-center justify-center -ml-1">
-                <img src="/src/assets/logo-whats.png" alt="WhatsApp" className="w-full h-full object-contain drop-shadow-md" />
+                <img src={logoWhats} alt="WhatsApp" className="w-full h-full object-contain drop-shadow-md" />
               </div>
               <div className="flex flex-col">
                 <span className="text-[0.95rem] font-medium leading-tight text-[#d0c0e3] drop-shadow-sm">Ordena ahora</span>

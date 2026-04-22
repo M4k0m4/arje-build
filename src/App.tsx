@@ -4,6 +4,7 @@ import Editor from './pages/Editor';
 import Catalogo from './pages/Catalogo';
 import ImportExport from './pages/ImportExport';
 import { exportAllHojasToPNG } from './lib/exportUtils';
+import logoArje from './assets/logo-arje.png';
 
 // A placeholder for the save state
 const isSaving = false;
@@ -15,7 +16,7 @@ function App() {
       <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-3.5 bg-white/70 backdrop-blur-xl border-b border-white/60 shadow-[0_8px_30px_rgba(89,52,139,0.06)]">
         <div className="flex items-center gap-6">
           <div className="flex items-center gap-3">
-            <img src="/src/assets/logo-arje.png" alt="Arjé Logo" className="h-6 w-auto object-contain" />
+            <img src={logoArje} alt="Arjé Logo" className="h-6 w-auto object-contain" />
             <div className="h-5 w-px bg-gray-300 rounded-full"></div>
             <span className="text-xs font-black tracking-widest uppercase text-[#59348b] pt-0.5 opacity-80">
               Editor de menús
