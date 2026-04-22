@@ -99,22 +99,14 @@ export default function CanvasMenu({
   const [cropOriginalUrl, setCropOriginalUrl] = React.useState<string>('');
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [activeSlot, setActiveSlot] = React.useState<number | null>(null);
-
   const handleUploadClick = (slot: number) => {
-    setActiveSlot(slot);
-    fileInputRef.current?.click();
+     // kept for interface compatibility
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && activeSlot) {
-      const url = URL.createObjectURL(file);
-      // Immediately open default crop before establishing as new standard
-      setCropOriginalUrl(url);
-      setCropSlot(activeSlot);
-    }
-    e.target.value = ''; // Reset
+  const handleFileSelected = (slot: number, file: File) => {
+    const url = URL.createObjectURL(file);
+    setCropOriginalUrl(url);
+    setCropSlot(slot);
   };
 
   const commitCrop = (croppedUrl: string) => {
@@ -197,6 +189,7 @@ export default function CanvasMenu({
               slotId={slotNum} 
               imageUrl={images[slotNum]}
               onUploadClick={handleUploadClick}
+              onFileSelected={handleFileSelected}
               onDoubleTap={(s) => {
                  setCropSlot(s);
                  setCropOriginalUrl(images[s]);
