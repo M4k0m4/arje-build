@@ -187,7 +187,7 @@ export default function CanvasMenu({
         ref={fileInputRef} 
         onChange={handleFileChange} 
         accept="image/*" 
-        style={{ display: 'none' }} 
+        className="absolute w-0 h-0 opacity-0 overflow-hidden pointer-events-none"
       />
       {/* Left Column: Imágenes GRID */}
       <div className="w-[327px] shrink-0 h-full flex flex-col z-20 p-0 m-0 relative bg-[#eae8ec] -mr-[1px]">
