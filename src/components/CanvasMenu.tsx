@@ -99,7 +99,7 @@ export default function CanvasMenu({
   const [cropOriginalUrl, setCropOriginalUrl] = React.useState<string>('');
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const handleUploadClick = (slot: number) => {
+  const handleUploadClick = (_slot: number) => {
      // kept for interface compatibility
   };
 
